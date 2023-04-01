@@ -1,0 +1,16 @@
+{{ if not .IsHome }}
+    {{ $url := replace .Permalink ( printf "%s" .Site.BaseURL) "" }}
+        {{ $.Scratch.Add "path" .Site.BaseURL }}
+        <div class="breadcrumbs" style="padding: 1px 15px; border: none; border-radius: 25px; box-shadow: 40px 4px 30px -5px rgba(5, 75, 100, 0.349); width: fit-content;">
+            <ol style="display: flex; list-style: none; align-items: center;">
+                <li><a href="{{ .Site.BaseURL }}">
+                    <img class="icon" src="{{ .Site.BaseURL }}/icons/home.svg" alt="home-page" style="width: 25px;">
+                </a></li>
+                {{- range .Ancestors.Reverse }}
+                <li class="breadcrumb-item"><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+                <li><img class="icon" src="{{ .Site.BaseURL }}/icons/arright.svg" alt="arright" style="width: 20px;"></li>
+                {{- end }}
+                <li class="breadcrumb-item active" aria-current="page">{{ .Title }}</li>
+            </ol>
+        </div>
+{{ end }}

@@ -8,6 +8,7 @@
         </script>
         {{- partial "header.html" . -}}
         <main id="content">
+        {{- partial "breadcrumbs" . -}}
         {{- block "main" . }}{{- end }}
         </main>
         {{- partial "footer.html" . -}}
