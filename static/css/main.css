@@ -390,6 +390,10 @@ table td {
   width: 13rem;
 }
 
+.home-about h1 {
+  font-size: 2em;
+}
+
 .home-about .avatar img.size-xl {
   height: 15rem;
   width: 15rem;
