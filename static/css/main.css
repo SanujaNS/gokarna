@@ -394,6 +394,23 @@ table td {
   font-size: 2em;
 }
 
+.cv-button {
+  background-color: #6854b3;
+  color: #fff;
+  padding: 12px 24px;
+  font-size: 16px;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  display: inline-block;
+  border: none;
+  cursor: pointer;
+}
+
+.cv-button:hover {
+  background-color: #322d77;
+}
+
 .home-about .avatar img.size-xl {
   height: 15rem;
   width: 15rem;
