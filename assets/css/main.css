@@ -26,9 +26,10 @@ html {
   background-color: rgb(var(--light-primary-color));
   color: var(--light-text-color);
   font-family: "Lato", sans-serif;
-  font-size: 17.5px;
+  font-size: var(--font-size);
   min-height: 100%;
   position: relative;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -64,7 +65,6 @@ main#content > .container {
 .post.container {
   box-sizing: border-box;
   display: inline-block;
-  padding-left: 20px;
 }
 
 .post-toc {
@@ -187,6 +187,12 @@ img {
   stroke-width: 2;
   width: 20px;
 }
+.nav-item a svg {
+  height: 20px;
+  margin: -3px auto;
+  stroke-width: 2;
+  width: 20px;
+}
 .nav-links .nav-link.icon a {
   padding: 0 8px;
 }
@@ -242,11 +248,12 @@ a:hover .feather-sun {
   bottom: 0;
   color: inherit;
   left: 0;
+  margin-left: 30%;
   overflow: hidden;
   padding: 40px 0;
   position: absolute;
   text-align: center;
-  width: 100%;
+  width: 40%;
 }
 
 .footer span {
@@ -325,6 +332,18 @@ pre code {
   font-size: 0.9em;
 }
 
+/*
+Fix iOS font sizing in code blocks
+Author: https://github.com/bglw
+Source: https://github.com/adityatelange/hugo-PaperMod/issues/828#issuecomment-1171994855
+*/
+code {
+  text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
 blockquote {
   border-left: 2px solid var(--light-secondary-color);
   color: grey;
@@ -359,7 +378,7 @@ table td {
 }
 
 /* HOME PAGE */
-.home-about, .home-content {
+.home-about {
   text-align: center;
 }
 
@@ -416,33 +435,47 @@ table td {
   width: 15rem;
 }
 
-.social-icons {
+.home-about h1 {
+  font-size: 2em;
+}
+
+.home-about h2 {
+  font-size: 1.2em;
+}
+
+.gk-social-icons {
   text-align: center;
 }
 
-.social-icons .social-icons-list {
+.gk-social-icons .gk-social-icons-list {
   display: inline-block;
   list-style-type: none;
   padding: 0;
   text-align: center;
 }
 
-.social-icons-list .social-icon {
+.gk-social-icons-list .gk-social-icon {
   box-sizing: border-box;
   display: inline-block;
   fill: var(--light-text-color);
-  height: 24px;
+  height: 96px;
   margin: 0 6px;
-  width: 24px;
+  width: 96px;
 }
 
-.social-icon a svg path {
+.gk-social-icon a svg path {
   transition: fill 0.15s ease;
 }
 
+.home-content {
+  line-height: 1.25;
+  width: 80%;
+  margin: 0 auto;
+}
+
 .home-posts {
-  margin: auto;
-  padding-top: 20px;
+  margin: 0 auto;
+  padding-top: 10px;
   width: 80%;
 }
 
@@ -451,7 +484,11 @@ table td {
   font-size: 1.1em;
   font-style: italic;
 }
-.post .post-date {
+.post {
+  /* Prevent long strings from overflowing */
+  overflow-wrap: break-word;
+}
+.post .post-date, .prev-post-date, .next-post-date {
   color: gray;
 }
 .post .post-content {
@@ -501,7 +538,11 @@ table td {
   display: inline-block;
 }
 .post-title .post-link {
-  width: 80%;
+  /* This magic number is the largest width that keeps the post-date div from
+   *  causing the line to wrap with the longest possible date string
+   *  "September 22, 2022"
+   */
+  width: 73%;
 }
 .tags-list .post-tags {
   margin-top: 50px;
@@ -575,11 +616,16 @@ table td {
     width: auto;
   }
 
+  .home-content, .home-posts {
+    width: auto;
+    margin: 0;
+  }
+
   main#content .container {
     width: 100%;
   }
 
-  .home-about, .home-content {
+  .home-about {
     margin: 0 auto;
   }
 
@@ -593,6 +639,11 @@ table td {
 
   .list-posts .post-date {
     color: gray;
+  }
+
+  .footer {
+    margin-left: 0;
+    width: 100%;
   }
 }
 
@@ -610,4 +661,50 @@ table td {
   width: 1px;
   height: 1px;
   overflow: hidden;
+}
+
+.prev-post {
+  float: left;
+  text-align: left;
+}
+
+.next-post {
+  float: right;
+  text-align: right;
+}
+
+.prev-post, .next-post {
+  max-width: 33%;
+}
+
+/* back to top button  */
+.arrow-logo {
+  background-color: transparent;
+  border-radius: 50%;
+  bottom: 20px;
+  cursor: pointer;
+  display: none;
+  font-size: 24px;
+  padding: 10px;
+  padding-right: 8px;
+  position: fixed;
+  right: 20px;
+  z-index: 5;
+  background-color: var(--light-tertiary-color);
+  width: 25px;
+  height: 25px;
+}
+
+.arrow-logo path{
+  fill: var(--light-secondary-color)
+}
+
+.arrow-logo:hover {
+  fill:  var(--accent-color);
+}
+
+@media screen and (max-width: 600px) {
+  #btt-button {
+      visibility: hidden;
+  }
 }

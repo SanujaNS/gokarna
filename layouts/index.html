@@ -1,51 +1,47 @@
 {{ define "main" }}
 <section class="home-about">
 	<div class="avatar">
-        {{ if isset .Site.Params "avatarurl" }}
-        <img class={{ .Site.Params.AvatarSize | default "size-xl" }} src='/images/me.webp' alt="{{ .Site.Params.AvatarAltText|default "avatar" }}" / \>
+        {{ if isset .Site.Params "ownerurl" }}
+        <img class={{ .Site.Params.AvatarSize | default "size-m" }} src='{{ .Site.BaseURL }}{{ .Site.Params.OwnerURL }}' alt="{{ .Site.Params.OwnerAltText|default "Owner" }}" />
         {{ end }}
 	</div>
-    <h3>{{ .Site.Params.Description }}</h3>
+    <section class="home-content">
+        {{ .Content }}
+        </br>
+        <a href="/CV/" class="cv-button">View My CV</a>
+        <hr>
+    </section>
 </section>
 
 <div class="flex-break"></div>
 
 {{ if isset .Site.Params "socialicons" }}
-<section class="home-content">
-    {{ .Content }}
-    </br>
-    <a href="/CV/" class="cv-button">View My CV</a>
-    <hr>
-</section>
-<section class="social-icons">
-        <div class="social" style="font-size: 90px; color: #85b885;">
-           <a href="/safe-go/url.html?to=https://link.sanujas.com/facebook" aria-label="Link to facebook"><i class="fab fa-facebook"></i></a>
-           <a href="/safe-go/url.html?to=https://link.sanujas.com/x" aria-label="Link to X"><i class="fab fa-twitter"></i></a>
-           <a href="/safe-go/url.html?to=https://link.sanujas.com/github" aria-label="Link to github"><i class="fab fa-github"></i></a>
-           <a href="/safe-go/url.html?to=https://link.sanujas.com/linkedin" aria-label="Link to linkedin"><i class="fab fa-linkedin"></i></a>
-           <a href="/safe-go/url.html?to=https://link.sanujas.com/da" aria-label="Link to deviantart"><i class="fab fa-deviantart"></i></a>
-        </div>
-</section>
-{{ end }}
-
-<!-- Render content/_index.md if it exists and isn't empty -->
-{{ if (and (fileExists "content/_index.md") .Content) }}
-
+<div class="gk-social-icons">
+    <ul class="gk-social-icons-list">
+        {{ range .Site.Params.SocialIcons }}
+        <li class="gk-social-icon">
+            <a href="{{ .url }}" {{ if .rel }}rel="{{ .rel }}"{{ end }} aria-label="Learn more on {{ .name }}">
+                <img class="svg-inject" src="{{ relURL "svg/icons/" }}{{ .name | lower }}.svg" alt="">
+            </a>
+        </li>
+        {{ end }}
+    </ul>
+</div>
 {{ end }}
 
 {{ if isset .Site.Params "showpostsonhomepage" }}
 
     <div class="home-posts list-posts">
-        <h2>{{ .Site.Params.ShowPostsOnHomePage | humanize }} Posts</h2>
+        <h2>{{ i18n (.Site.Params.ShowPostsOnHomePage | humanize) }}</h2>
 
     {{ $posts := where .Site.Pages "Params.type" "post" }}
 
     {{ if eq .Site.Params.ShowPostsOnHomePage "popular" }}
-        {{ range $posts.ByWeight | first 4 }}
+        {{ range $posts.ByWeight | first (or .Site.Params.NumberPostsOnHomePage 4) }}
             {{- partial "list-posts.html" . -}}
         {{ end }}
     {{ else if eq .Site.Params.ShowPostsOnHomePage "recent" }}
-        {{ range $posts.ByDate.Reverse | first 4 }}
+        {{ range $posts.ByDate.Reverse | first (or .Site.Params.NumberPostsOnHomePage 4) }}
             {{- partial "list-posts.html" . -}}
         {{ end }}
     {{ end }}
